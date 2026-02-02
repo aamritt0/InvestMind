@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html class="dark" lang="it"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calcolo con Slider Expressive</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        "surface-dark": "#1E2932",
+                        "surface-dark-variant": "#2B3640",
+                        "on-surface": "#E1E3E5",
+                        "on-surface-variant": "#9CA3AF"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            min-height: max(884px, 100dvh);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }.expressive-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 36px;background: transparent;
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+        }
+        .expressive-slider:focus {
+            outline: none;
+        }.expressive-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 32px;
+            width: 32px;
+            border-radius: 50%;
+            background: #137fec;margin-top: -10px;box-shadow: 0 4px 10px rgba(19, 127, 236, 0.4);
+            border: 4px solid #f1f5f9;transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        html.dark .expressive-slider::-webkit-slider-thumb {
+            border-color: #1E2932;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .expressive-slider:active::-webkit-slider-thumb {
+            transform: scale(1.15);
+            box-shadow: 0 0 0 8px rgba(19, 127, 236, 0.15);
+        }.expressive-slider::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 12px;
+            cursor: pointer;
+            background: #cbd5e1;border-radius: 9999px;
+            transition: background 0.3s ease;
+        }
+        html.dark .expressive-slider::-webkit-slider-runnable-track {
+            background: #2B3640;}.expressive-slider::-moz-range-thumb {
+            height: 32px;
+            width: 32px;
+            border: none;
+            border-radius: 50%;
+            background: #137fec;
+            border: 4px solid #f1f5f9;
+        }
+        html.dark .expressive-slider::-moz-range-thumb {
+            border-color: #1E2932;
+        }
+        .expressive-slider::-moz-range-track {
+            width: 100%;
+            height: 12px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        html.dark .expressive-slider::-moz-range-track {
+            background: #2B3640;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col overflow-hidden relative">
+<div class="relative flex flex-col h-full w-full max-w-md mx-auto bg-background-light dark:bg-background-dark text-slate-900 dark:text-white shadow-2xl overflow-y-auto pb-24">
+<header class="sticky top-0 z-20 flex items-center justify-between px-4 py-4 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md">
+<button class="flex items-center justify-center p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight text-center flex-1">Interesse Composto</h1>
+<button class="flex items-center justify-center p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined text-[24px]">more_vert</span>
+</button>
+</header>
+<main class="flex flex-col px-5 pt-2 gap-8">
+<div class="flex flex-col gap-1">
+<h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Calcola i tuoi rendimenti</h2>
+<p class="text-sm text-slate-500 dark:text-on-surface-variant">Inserisci i dettagli del tuo investimento per vedere la crescita composta.</p>
+</div>
+<div class="flex flex-col gap-3">
+<label class="text-sm font-semibold text-slate-900 dark:text-on-surface px-1">Frequenza di Capitalizzazione</label>
+<div class="bg-slate-200 dark:bg-surface-dark p-1 rounded-full flex relative h-12">
+<label class="flex-1 cursor-pointer z-10">
+<input checked="" class="peer sr-only" name="frequency" type="radio" value="annual"/>
+<div class="w-full h-full flex items-center justify-center rounded-full text-sm font-medium text-slate-600 dark:text-on-surface-variant transition-all duration-200 peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-md">
+                        Annuale
+                    </div>
+</label>
+<label class="flex-1 cursor-pointer z-10">
+<input class="peer sr-only" name="frequency" type="radio" value="quarterly"/>
+<div class="w-full h-full flex items-center justify-center rounded-full text-sm font-medium text-slate-600 dark:text-on-surface-variant transition-all duration-200 peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-md">
+                        Trimestrale
+                    </div>
+</label>
+<label class="flex-1 cursor-pointer z-10">
+<input class="peer sr-only" name="frequency" type="radio" value="monthly"/>
+<div class="w-full h-full flex items-center justify-center rounded-full text-sm font-medium text-slate-600 dark:text-on-surface-variant transition-all duration-200 peer-checked:bg-primary peer-checked:text-white peer-checked:shadow-md">
+                        Mensile
+                    </div>
+</label>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="flex flex-col p-5 bg-slate-100 dark:bg-surface-dark rounded-2xl gap-2 shadow-sm">
+<div class="flex justify-between items-end mb-2">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+<span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-primary">Capitale Iniziale</span>
+</div>
+</div>
+<div class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">€ 10.000</div>
+</div>
+<div class="relative w-full flex items-center">
+<input class="expressive-slider" max="50000" min="0" step="500" type="range" value="10000"/>
+</div>
+<div class="flex justify-between text-[11px] font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest px-1 mt-1">
+<span>€ 0</span>
+<span>€ 50k</span>
+</div>
+</div>
+<div class="flex flex-col p-5 bg-slate-100 dark:bg-surface-dark rounded-2xl gap-2 shadow-sm">
+<div class="flex justify-between items-end mb-2">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[22px]">trending_up</span>
+<span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-primary">Tasso Annuo</span>
+</div>
+</div>
+<div class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">5.0%</div>
+</div>
+<div class="relative w-full flex items-center">
+<input class="expressive-slider" max="15" min="0.1" step="0.1" type="range" value="5.0"/>
+</div>
+<div class="flex justify-between text-[11px] font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest px-1 mt-1">
+<span>0%</span>
+<span>15%</span>
+</div>
+</div>
+<div class="flex flex-col p-5 bg-slate-100 dark:bg-surface-dark rounded-2xl gap-2 shadow-sm">
+<div class="flex justify-between items-end mb-2">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[22px]">calendar_today</span>
+<span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-primary">Periodo</span>
+</div>
+</div>
+<div class="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">10 Anni</div>
+</div>
+<div class="relative w-full flex items-center">
+<input class="expressive-slider" max="30" min="1" step="1" type="range" value="10"/>
+</div>
+<div class="flex justify-between text-[11px] font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest px-1 mt-1">
+<span>1 Anno</span>
+<span>30 Anni</span>
+</div>
+</div>
+<p class="text-xs text-slate-500 dark:text-on-surface-variant px-1 mt-[-10px] text-center opacity-80">
+                * Il calcolo assume che gli interessi vengano reinvestiti alla fine di ogni periodo.
+            </p>
+</div>
+</main>
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background-light via-background-light to-transparent dark:from-background-dark dark:via-background-dark dark:to-transparent z-30 flex justify-end pointer-events-none">
+<button class="pointer-events-auto shadow-[0_8px_30px_rgb(19,127,236,0.4)] hover:shadow-[0_8px_35px_rgb(19,127,236,0.6)] bg-primary text-white h-16 pl-6 pr-8 rounded-[2rem] flex items-center gap-3 transition-transform active:scale-95 group">
+<span class="material-symbols-outlined text-[28px] group-hover:rotate-12 transition-transform">calculate</span>
+<span class="text-lg font-bold tracking-wide">Calcola</span>
+</button>
+</div>
+</div>
+
+</body></html>

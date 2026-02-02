@@ -1,0 +1,61 @@
+# Riepilogo Modifiche Sessione - Implementazione Calcolo Interesse Composto (Material 3 Expressive)
+
+In questa sessione è stata implementata la nuova funzionalità di calcolo dell'interesse composto, convertendo un design HTML/Tailwind in una Activity Android nativa utilizzando lo stile Material 3 Expressive.
+
+## 1. Risorse Grafiche e Stili
+
+### Colori (`app/src/main/res/values/colors.xml`)
+- Aggiornata la palette colori per supportare il tema scuro personalizzato.
+- Aggiunti colori specifici:
+  - `background`: #101922 (Sfondo scuro principale)
+  - `surface`: #1E2932 (Colore card)
+  - `primary`: #137fec (Colore accento blu)
+  - `text_primary` / `text_secondary`: Colori testo ottimizzati per il contrasto.
+
+### Icone (`app/src/main/res/drawable/`)
+Sono stati creati i seguenti Vector Drawable per le icone dell'interfaccia:
+- `ic_wallet.xml`: Icona portafoglio per il capitale.
+- `ic_calendar.xml`: Icona calendario per il periodo.
+- `ic_calculate.xml`: Icona calcolatrice per il pulsante FAB.
+- `ic_arrow_back.xml`: Icona freccia indietro per la toolbar.
+- `bg_bottom_gradient.xml`: Gradiente sfumato per la parte inferiore dello schermo.
+
+## 2. Layout (XML)
+
+### `activity_compound_calc.xml`
+- Creato il layout completo per la schermata di calcolo.
+- **Struttura:** `ConstraintLayout` con `ScrollView` interna.
+- **Componenti:**
+  - `MaterialToolbar` per la navigazione.
+  - `MaterialButtonToggleGroup` per la selezione della frequenza (Annuale, Trimestrale, Mensile).
+  - 3 `MaterialCardView` contenenti i controlli per Capitale, Tasso e Periodo.
+  - **Slider Expressive:** Utilizzato `com.google.android.material.slider.Slider` personalizzato con:
+    - `trackHeight="12dp"` (Traccia spessa)
+    - `thumbRadius="16dp"` (Cursore grande)
+    - `thumbStrokeWidth="4dp"` e `thumbStrokeColor="@color/surface"` (Bordo per effetto "cutout").
+  - `ExtendedFloatingActionButton` (FAB) per il pulsante "Calcola", con ombra colorata personalizzata.
+
+### `activity_result.xml`
+- Aggiornato per mostrare il risultato finale del calcolo in grande evidenza.
+
+## 3. Logica (Java)
+
+### `CompoundCalcActivity.java`
+- Implementata la logica della schermata.
+- Gestione dei Listener per aggiornare in tempo reale i valori visualizzati quando si muovono gli slider.
+- Gestione della selezione della frequenza (Toggle Group).
+- **Algoritmo di Calcolo:** Implementata la formula dell'interesse composto: `A = P(1 + r/n)^(nt)`.
+- Navigazione verso la `ResultActivity` passando i dati calcolati tramite Intent.
+
+### `MainActivity.java`
+- Aggiunto il listener di click sulla Card "Interesse Composto" e sul relativo pulsante per aprire la nuova `CompoundCalcActivity`.
+
+### `ResultActivity.java`
+- Aggiornata per recuperare il valore `RESULT_AMOUNT` dall'Intent.
+- Formattazione del risultato come valuta (Euro) locale.
+
+## 4. Configurazioni
+- **Manifest (`AndroidManifest.xml`)**: Registrata la nuova `CompoundCalcActivity`.
+
+---
+Queste modifiche rendono l'app in grado di calcolare l'interesse composto con un'interfaccia utente moderna e reattiva, fedele al design system richiesto.

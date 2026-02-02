@@ -1,6 +1,8 @@
 package com.example.investmind;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,28 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        Button btnCompound = findViewById(R.id.btnCompound);
+        btnCompound.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CompoundCalcActivity.class);
+            startActivity(intent);
+        });
+        
+        findViewById(R.id.cardCompound).setOnClickListener(v -> {
+             Intent intent = new Intent(MainActivity.this, CompoundCalcActivity.class);
+             startActivity(intent);
+        });
+
+        Button btnSimple = findViewById(R.id.btnSimple);
+        btnSimple.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SimpleCalcActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.cardSimple).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SimpleCalcActivity.class);
+            startActivity(intent);
         });
     }
 }
