@@ -30,5 +30,26 @@ public class ResultActivity extends AppCompatActivity {
         
         NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.ITALY);
         tvResultAmount.setText(currencyFormat.format(amount));
+
+        // Save History
+        String type = getIntent().getStringExtra("CALC_TYPE");
+        if (type == null) type = "Calcolo";
+
+        double principal = getIntent().getDoubleExtra("PRINCIPAL", 0);
+        double rate = getIntent().getDoubleExtra("RATE", 0);
+        int years = getIntent().getIntExtra("YEARS", 0);
+
+        NumberFormat cf = NumberFormat.getCurrencyInstance(Locale.ITALY);
+        cf.setMaximumFractionDigits(0);
+        String details = cf.format(principal) + " + " + String.format(Locale.getDefault(), "%.1f%%", rate) + " per " + years + " anni";
+
+        HistoryItem item = new HistoryItem(
+            type,
+            type,
+            System.currentTimeMillis(),
+            currencyFormat.format(amount),
+            details
+        );
+        HistoryManager.saveHistoryItem(this, item);
     }
 }

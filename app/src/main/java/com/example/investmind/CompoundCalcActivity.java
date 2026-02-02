@@ -132,6 +132,7 @@ public class CompoundCalcActivity extends AppCompatActivity {
         double amount = principal * Math.pow(1 + (r / frequency), frequency * years);
 
         Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra("CALC_TYPE", "Interesse Composto");
         intent.putExtra("RESULT_AMOUNT", amount);
         intent.putExtra("PRINCIPAL", principal);
         intent.putExtra("RATE", rate);

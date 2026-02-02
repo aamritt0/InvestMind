@@ -116,6 +116,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
         double amount = principal * (1 + (r * years));
 
         Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra("CALC_TYPE", "Interesse Semplice");
         intent.putExtra("RESULT_AMOUNT", amount);
         intent.putExtra("PRINCIPAL", principal);
         intent.putExtra("RATE", rate);
