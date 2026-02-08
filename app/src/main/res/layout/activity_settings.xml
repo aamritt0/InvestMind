@@ -81,15 +81,32 @@
                             android:textSize="16sp"
                             android:layout_marginStart="12dp"/>
 
-                        <Spinner
-                            android:id="@+id/spinnerCurrency"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/dropdownCurrencyLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:minWidth="120dp"
-                            android:spinnerMode="dropdown"
-                            android:background="@android:color/transparent"/>
-                    </LinearLayout>
+                            app:boxCornerRadiusTopStart="16dp"
+                            app:boxCornerRadiusTopEnd="16dp"
+                            app:boxCornerRadiusBottomStart="16dp"
+                            app:boxCornerRadiusBottomEnd="16dp"
+                            app:boxStrokeColor="@color/primary"
+                            app:boxStrokeWidth="1dp"
+                            app:boxStrokeWidthFocused="2dp"
+                            android:minWidth="140dp">
 
+                            <AutoCompleteTextView
+                                android:id="@+id/dropdownCurrency"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:editable="false"
+                                android:textColor="@color/white"
+                                android:textStyle="bold"
+                                android:padding="12dp"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                    
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -117,13 +134,30 @@
                             android:textSize="16sp"
                             android:layout_marginStart="12dp"/>
 
-                        <Spinner
-                            android:id="@+id/spinnerDecimalSep"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/dropdownDecimalLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:minWidth="120dp"
-                            android:spinnerMode="dropdown"
-                            android:background="@android:color/transparent"/>
+                            app:boxCornerRadiusTopStart="16dp"
+                            app:boxCornerRadiusTopEnd="16dp"
+                            app:boxCornerRadiusBottomStart="16dp"
+                            app:boxCornerRadiusBottomEnd="16dp"
+                            app:boxStrokeColor="@color/primary"
+                            app:boxStrokeWidth="1dp"
+                            app:boxStrokeWidthFocused="2dp"
+                            android:minWidth="140dp">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/dropdownDecimal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:editable="false"
+                                android:textColor="@color/white"
+                                android:textStyle="bold"
+                                android:padding="12dp"/>
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
                     <View
@@ -153,13 +187,30 @@
                             android:textSize="16sp"
                             android:layout_marginStart="12dp"/>
 
-                        <Spinner
-                            android:id="@+id/spinnerThousandsSep"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/dropdownThousandsLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:minWidth="120dp"
-                            android:spinnerMode="dropdown"
-                            android:background="@android:color/transparent"/>
+                            app:boxCornerRadiusTopStart="16dp"
+                            app:boxCornerRadiusTopEnd="16dp"
+                            app:boxCornerRadiusBottomStart="16dp"
+                            app:boxCornerRadiusBottomEnd="16dp"
+                            app:boxStrokeColor="@color/primary"
+                            app:boxStrokeWidth="1dp"
+                            app:boxStrokeWidthFocused="2dp"
+                            android:minWidth="140dp">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/dropdownThousands"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:editable="false"
+                                android:textColor="@color/white"
+                                android:textStyle="bold"
+                                android:padding="12dp"/>
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
                 </LinearLayout>

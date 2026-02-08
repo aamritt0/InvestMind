@@ -2,6 +2,8 @@ package com.example.investmind;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -13,6 +15,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -26,6 +30,16 @@ public class SimpleCalcActivity extends AppCompatActivity {
     private SeekBar sliderRate;
     private SeekBar sliderYears;
     private ExtendedFloatingActionButton btnCalculate;
+
+    private TextInputLayout textInputLayoutPrincipal;
+    private TextInputLayout textInputLayoutRate;
+    private TextInputLayout textInputLayoutYears;
+    private TextInputEditText etPrincipal;
+    private TextInputEditText etRate;
+    private TextInputEditText etYears;
+
+    private SettingsManager settingsManager;
+    private boolean isUpdatingFromSlider = false;
 
     private double principal = 10000.0;
     private double rate = 5.0;
@@ -42,7 +56,10 @@ public class SimpleCalcActivity extends AppCompatActivity {
             return insets;
         });
 
+        settingsManager = new SettingsManager(this);
+
         initViews();
+        setupTextInputVisibility();
         setupListeners();
         updateValues();
     }
@@ -55,6 +72,21 @@ public class SimpleCalcActivity extends AppCompatActivity {
         sliderRate = findViewById(R.id.sliderRate);
         sliderYears = findViewById(R.id.sliderYears);
         btnCalculate = findViewById(R.id.btnCalculate);
+
+        textInputLayoutPrincipal = findViewById(R.id.textInputLayoutPrincipal);
+        textInputLayoutRate = findViewById(R.id.textInputLayoutRate);
+        textInputLayoutYears = findViewById(R.id.textInputLayoutYears);
+        etPrincipal = findViewById(R.id.etPrincipal);
+        etRate = findViewById(R.id.etRate);
+        etYears = findViewById(R.id.etYears);
+    }
+
+    private void setupTextInputVisibility() {
+        boolean isTextInputEnabled = settingsManager.isTextInputEnabled();
+        int visibility = isTextInputEnabled ? View.VISIBLE : View.GONE;
+        textInputLayoutPrincipal.setVisibility(visibility);
+        textInputLayoutRate.setVisibility(visibility);
+        textInputLayoutYears.setVisibility(visibility);
     }
 
     private void setupListeners() {
@@ -96,17 +128,121 @@ public class SimpleCalcActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         btnCalculate.setOnClickListener(v -> calculateAndShowResult());
+
+        // Text input listeners
+        etPrincipal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!isUpdatingFromSlider && s.length() > 0) {
+                    try {
+                        double value = settingsManager.parseNumber(s.toString());
+                        if (value >= 0 && value <= 50000) {
+                            principal = value;
+                            int progress = (int) (value / 500.0);
+                            sliderPrincipal.setProgress(progress);
+                            tvPrincipalValue.setText(settingsManager.formatCurrencyNoDecimals(principal));
+                            textInputLayoutPrincipal.setError(null);
+                        } else {
+                            textInputLayoutPrincipal.setError("Valore tra 0 e 50.000");
+                        }
+                    } catch (NumberFormatException e) {
+                        textInputLayoutPrincipal.setError("Valore non valido");
+                    }
+                }
+            }
+        });
+
+        etRate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!isUpdatingFromSlider && s.length() > 0) {
+                    try {
+                        double value = settingsManager.parseNumber(s.toString());
+                        if (value >= 0.1 && value <= 15.0) {
+                            rate = value;
+                            int progress = (int) ((value - 0.1) / 0.1);
+                            sliderRate.setProgress(progress);
+                            tvRateValue.setText(String.format(Locale.getDefault(), "%.1f%%", rate));
+                            textInputLayoutRate.setError(null);
+                        } else {
+                            textInputLayoutRate.setError("Valore tra 0.1% e 15%");
+                        }
+                    } catch (NumberFormatException e) {
+                        textInputLayoutRate.setError("Valore non valido");
+                    }
+                }
+            }
+        });
+
+        etYears.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!isUpdatingFromSlider && s.length() > 0) {
+                    try {
+                        int value = Integer.parseInt(s.toString());
+                        if (value >= 1 && value <= 30) {
+                            years = value;
+                            sliderYears.setProgress(value - 1);
+                            tvYearsValue.setText(String.format(Locale.getDefault(), "%d Anni", years));
+                            if (years == 1) {
+                                tvYearsValue.setText("1 Anno");
+                            }
+                            textInputLayoutYears.setError(null);
+                        } else {
+                            textInputLayoutYears.setError("Valore tra 1 e 30");
+                        }
+                    } catch (NumberFormatException e) {
+                        textInputLayoutYears.setError("Valore non valido");
+                    }
+                }
+            }
+        });
     }
 
     private void updateValues() {
-        SettingsManager settings = new SettingsManager(this);
-        tvPrincipalValue.setText(settings.formatCurrencyNoDecimals(principal));
+        isUpdatingFromSlider = true;
+        
+        tvPrincipalValue.setText(settingsManager.formatCurrencyNoDecimals(principal));
         tvRateValue.setText(String.format(Locale.getDefault(), "%.1f%%", rate));
         
         tvYearsValue.setText(String.format(Locale.getDefault(), "%d Anni", years));
         if (years == 1) {
              tvYearsValue.setText("1 Anno");
         }
+
+        // Only update text inputs when they're not focused (to avoid cursor jumping)
+        // When user is typing, the TextWatcher handles validation
+        if (settingsManager.isTextInputEnabled()) {
+            if (!etPrincipal.hasFocus()) {
+                etPrincipal.setText(settingsManager.getNumberFormat(0).format(principal));
+            }
+            if (!etRate.hasFocus()) {
+                etRate.setText(String.format(Locale.getDefault(), "%.1f", rate).replace(".", settingsManager.getDecimalSeparator()));
+            }
+            if (!etYears.hasFocus()) {
+                etYears.setText(String.valueOf(years));
+            }
+        }
+        
+        isUpdatingFromSlider = false;
     }
 
     private void calculateAndShowResult() {

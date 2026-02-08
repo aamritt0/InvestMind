@@ -39,7 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="InvestMind"
+                android:text="BalthaInvest"
                 android:textColor="@color/white"
                 android:textSize="28sp"
                 android:textStyle="bold"/>
@@ -82,7 +82,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Amrit"
+                    android:text="Amritpal Singh, Giovanni Baraldi, Ishan Sharma e Sagalpartap Singh"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:layout_marginTop="8dp"/>
@@ -138,7 +138,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="© 2026 InvestMind"
+            android:text="© 2026 BalthaInvest"
             android:textColor="@color/text_secondary"
             android:textSize="12sp"
             android:layout_gravity="center_horizontal"

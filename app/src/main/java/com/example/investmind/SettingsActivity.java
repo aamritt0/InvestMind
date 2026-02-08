@@ -2,10 +2,8 @@ package com.example.investmind;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.AutoCompleteTextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.materialswitch.MaterialSwitch;
@@ -13,10 +11,19 @@ import com.google.android.material.materialswitch.MaterialSwitch;
 public class SettingsActivity extends AppCompatActivity {
 
     private SettingsManager settingsManager;
-    private Spinner spinnerCurrency;
-    private Spinner spinnerDecimalSep;
-    private Spinner spinnerThousandsSep;
+    private AutoCompleteTextView dropdownCurrency;
+    private AutoCompleteTextView dropdownDecimal;
+    private AutoCompleteTextView dropdownThousands;
     private MaterialSwitch switchTextInput;
+
+    private final String[] currencies = {"EUR (€)", "USD ($)", "GBP (£)", "JPY (¥)", "CHF (Fr)", "CAD ($)", "AUD ($)", "CNY (¥)", "INR (₹)", "BRL (R$)"};
+    private final String[] currencyCodes = {"EUR", "USD", "GBP", "JPY", "CHF", "CAD", "AUD", "CNY", "INR", "BRL"};
+    
+    private final String[] decimalSeparators = {"Virgola (,)", "Punto (.)"};
+    private final String[] decimalValues = {",", "."};
+    
+    private final String[] thousandsSeparators = {"Punto (.)", "Virgola (,)", "Spazio ( )"};
+    private final String[] thousandsValues = {".", ",", " "};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +40,14 @@ public class SettingsActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                overridePendingTransition(0, 0); // No animation
+                overridePendingTransition(0, 0);
                 finish();
                 return true;
             } else if (item.getItemId() == R.id.nav_history) {
                 Intent intent = new Intent(this, HistoryActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                overridePendingTransition(0, 0); // No animation
+                overridePendingTransition(0, 0);
                 finish();
                 return true;
             } else if (item.getItemId() == R.id.nav_settings) {
@@ -50,14 +57,14 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         // Initialize views
-        spinnerCurrency = findViewById(R.id.spinnerCurrency);
-        spinnerDecimalSep = findViewById(R.id.spinnerDecimalSep);
-        spinnerThousandsSep = findViewById(R.id.spinnerThousandsSep);
+        dropdownCurrency = findViewById(R.id.dropdownCurrency);
+        dropdownDecimal = findViewById(R.id.dropdownDecimal);
+        dropdownThousands = findViewById(R.id.dropdownThousands);
         switchTextInput = findViewById(R.id.switchTextInput);
 
-        setupCurrencySpinner();
-        setupDecimalSeparatorSpinner();
-        setupThousandsSeparatorSpinner();
+        setupCurrencyDropdown();
+        setupDecimalDropdown();
+        setupThousandsDropdown();
         setupTextInputSwitch();
         
         // About button
@@ -75,87 +82,57 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    private void setupCurrencySpinner() {
-        String[] currencies = {"EUR (€)", "USD ($)", "GBP (£)", "JPY (¥)", "CHF (Fr)", "CAD ($)", "AUD ($)", "CNY (¥)", "INR (₹)", "BRL (R$)"};
-        String[] currencyCodes = {"EUR", "USD", "GBP", "JPY", "CHF", "CAD", "AUD", "CNY", "INR", "BRL"};
-        
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, currencies);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        spinnerCurrency.setAdapter(adapter);
+    private void setupCurrencyDropdown() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_item, currencies);
+        dropdownCurrency.setAdapter(adapter);
 
         // Set current selection
         String currentCurrency = settingsManager.getCurrencyCode();
         for (int i = 0; i < currencyCodes.length; i++) {
             if (currencyCodes[i].equals(currentCurrency)) {
-                spinnerCurrency.setSelection(i);
+                dropdownCurrency.setText(currencies[i], false);
                 break;
             }
         }
 
-        spinnerCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                settingsManager.setCurrencyCode(currencyCodes[position]);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+        dropdownCurrency.setOnItemClickListener((parent, view, position, id) -> {
+            settingsManager.setCurrencyCode(currencyCodes[position]);
         });
     }
 
-    private void setupDecimalSeparatorSpinner() {
-        String[] separators = {"Virgola (,)", "Punto (.)"};
-        String[] separatorValues = {",", "."};
-        
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, separators);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        spinnerDecimalSep.setAdapter(adapter);
+    private void setupDecimalDropdown() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_item, decimalSeparators);
+        dropdownDecimal.setAdapter(adapter);
 
         // Set current selection
         String currentSep = settingsManager.getDecimalSeparator();
-        for (int i = 0; i < separatorValues.length; i++) {
-            if (separatorValues[i].equals(currentSep)) {
-                spinnerDecimalSep.setSelection(i);
+        for (int i = 0; i < decimalValues.length; i++) {
+            if (decimalValues[i].equals(currentSep)) {
+                dropdownDecimal.setText(decimalSeparators[i], false);
                 break;
             }
         }
 
-        spinnerDecimalSep.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                settingsManager.setDecimalSeparator(separatorValues[position]);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+        dropdownDecimal.setOnItemClickListener((parent, view, position, id) -> {
+            settingsManager.setDecimalSeparator(decimalValues[position]);
         });
     }
 
-    private void setupThousandsSeparatorSpinner() {
-        String[] separators = {"Punto (.)", "Virgola (,)", "Spazio ( )"};
-        String[] separatorValues = {".", ",", " "};
-        
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, separators);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        spinnerThousandsSep.setAdapter(adapter);
+    private void setupThousandsDropdown() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdown_item, thousandsSeparators);
+        dropdownThousands.setAdapter(adapter);
 
         // Set current selection
         String currentSep = settingsManager.getThousandsSeparator();
-        for (int i = 0; i < separatorValues.length; i++) {
-            if (separatorValues[i].equals(currentSep)) {
-                spinnerThousandsSep.setSelection(i);
+        for (int i = 0; i < thousandsValues.length; i++) {
+            if (thousandsValues[i].equals(currentSep)) {
+                dropdownThousands.setText(thousandsSeparators[i], false);
                 break;
             }
         }
 
-        spinnerThousandsSep.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                settingsManager.setThousandsSeparator(separatorValues[position]);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+        dropdownThousands.setOnItemClickListener((parent, view, position, id) -> {
+            settingsManager.setThousandsSeparator(thousandsValues[position]);
         });
     }
 
