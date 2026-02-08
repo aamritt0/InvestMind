@@ -6,11 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,33 +20,27 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_history);
         
-        // Handle window insets for correct padding
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rvHistory), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(0, 0, 0, systemBars.bottom + 80); // Extra padding for bottom nav
-            return insets;
-        });
-
         // Setup Bottom Navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
-        bottomNav.setSelectedItemId(R.id.nav_history);
+        bottomNav.getMenu().findItem(R.id.nav_history).setChecked(true);
         bottomNav.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                finish(); 
-                overridePendingTransition(0, 0); 
+                overridePendingTransition(0, 0); // No animation
+                finish();
                 return true;
             } else if (item.getItemId() == R.id.nav_history) {
                 return true;
             } else if (item.getItemId() == R.id.nav_settings) {
                 Intent intent = new Intent(this, SettingsActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                overridePendingTransition(0, 0);
+                overridePendingTransition(0, 0); // No animation
+                finish();
                 return true;
             }
             return false;
@@ -86,7 +76,7 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
-        bottomNav.setSelectedItemId(R.id.nav_history);
+        bottomNav.getMenu().findItem(R.id.nav_history).setChecked(true);
         List<HistoryItem> historyItems = HistoryManager.getHistoryItems(this);
         adapter.setItems(historyItems);
     }

@@ -31,6 +31,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             filteredItems.clear();
             String lowerQuery = query.toLowerCase();
             
+            // Strip common currency symbols for numeric search
+            String numericQuery = query.replaceAll("[€$£¥₹\\s,.]+", "");
+            
             for (HistoryItem item : items) {
                 boolean matches = false;
                 
@@ -50,10 +53,21 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                     matches = true;
                 }
                 
-                // Search by principal amount (numeric)
-                if (item.getPrincipalAmount() > 0) {
+                // Search by principal amount (numeric) - strip currency symbols
+                if (item.getPrincipalAmount() > 0 && !numericQuery.isEmpty()) {
                     String principalStr = String.valueOf((int)item.getPrincipalAmount());
-                    if (principalStr.contains(query.replaceAll("[^0-9]", ""))) {
+                    if (principalStr.contains(numericQuery)) {
+                        matches = true;
+                    }
+                }
+                
+                // Also search in the formatted amount string (with currency)
+                if (item.getAmount() != null) {
+                    String amountStripped = item.getAmount().replaceAll("[€$£¥₹\\s,.]+", "");
+                    if (!numericQuery.isEmpty() && amountStripped.contains(numericQuery)) {
+                        matches = true;
+                    }
+                    if (item.getAmount().toLowerCase().contains(lowerQuery)) {
                         matches = true;
                     }
                 }

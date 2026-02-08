@@ -6,12 +6,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -25,19 +21,33 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_settings);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         settingsManager = new SettingsManager(this);
 
-        // Setup toolbar
-        MaterialToolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+        // Setup Bottom Navigation
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        bottomNav.getMenu().findItem(R.id.nav_settings).setChecked(true);
+        bottomNav.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_home) {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                overridePendingTransition(0, 0); // No animation
+                finish();
+                return true;
+            } else if (item.getItemId() == R.id.nav_history) {
+                Intent intent = new Intent(this, HistoryActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                overridePendingTransition(0, 0); // No animation
+                finish();
+                return true;
+            } else if (item.getItemId() == R.id.nav_settings) {
+                return true;
+            }
+            return false;
+        });
 
         // Initialize views
         spinnerCurrency = findViewById(R.id.spinnerCurrency);
@@ -56,13 +66,21 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+        bottomNav.getMenu().findItem(R.id.nav_settings).setChecked(true);
+    }
+
 
     private void setupCurrencySpinner() {
         String[] currencies = {"EUR (€)", "USD ($)", "GBP (£)", "JPY (¥)", "CHF (Fr)", "CAD ($)", "AUD ($)", "CNY (¥)", "INR (₹)", "BRL (R$)"};
         String[] currencyCodes = {"EUR", "USD", "GBP", "JPY", "CHF", "CAD", "AUD", "CNY", "INR", "BRL"};
         
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, currencies);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, currencies);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinnerCurrency.setAdapter(adapter);
 
         // Set current selection
@@ -89,8 +107,8 @@ public class SettingsActivity extends AppCompatActivity {
         String[] separators = {"Virgola (,)", "Punto (.)"};
         String[] separatorValues = {",", "."};
         
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, separators);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, separators);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinnerDecimalSep.setAdapter(adapter);
 
         // Set current selection
@@ -117,8 +135,8 @@ public class SettingsActivity extends AppCompatActivity {
         String[] separators = {"Punto (.)", "Virgola (,)", "Spazio ( )"};
         String[] separatorValues = {".", ",", " "};
         
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, separators);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item, separators);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinnerThousandsSep.setAdapter(adapter);
 
         // Set current selection

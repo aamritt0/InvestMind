@@ -2,6 +2,7 @@ package com.example.investmind;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -109,19 +110,13 @@ public class SimpleCalcActivity extends AppCompatActivity {
     }
 
     private void calculateAndShowResult() {
-        // Show dialog to optionally name the calculation
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-        builder.setTitle("Dai un nome al calcolo (opzionale)");
+        // Show Material 3 Expressive dialog to optionally name the calculation
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_calculation_name, null);
+        com.google.android.material.textfield.TextInputEditText input = dialogView.findViewById(R.id.etCalculationName);
         
-        final android.widget.EditText input = new android.widget.EditText(this);
-        input.setHint("es: Conto Risparmio, Fondo Emergenza...");
-        android.view.ViewGroup.MarginLayoutParams params = new android.view.ViewGroup.MarginLayoutParams(
-            android.view.ViewGroup.MarginLayoutParams.MATCH_PARENT,
-            android.view.ViewGroup.MarginLayoutParams.WRAP_CONTENT
-        );
-        params.setMargins(50, 20, 50, 20);
-        input.setLayoutParams(params);
-        builder.setView(input);
+        com.google.android.material.dialog.MaterialAlertDialogBuilder builder = 
+            new com.google.android.material.dialog.MaterialAlertDialogBuilder(this);
+        builder.setView(dialogView);
         
         builder.setPositiveButton("Calcola", (dialog, which) -> {
             String calculationName = input.getText().toString().trim();

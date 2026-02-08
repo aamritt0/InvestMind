@@ -2,8 +2,40 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.InvestMind" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        
+        <!-- Disable activity transition animations for seamless bottom nav switching -->
+        <item name="android:windowAnimationStyle">@style/NoTransitionAnimation</item>
+    </style>
+    
+    <!-- Style to disable all window animations -->
+    <style name="NoTransitionAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@null</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@null</item>
+        <item name="android:taskOpenEnterAnimation">@null</item>
+        <item name="android:taskOpenExitAnimation">@null</item>
+        <item name="android:taskCloseEnterAnimation">@null</item>
+        <item name="android:taskCloseExitAnimation">@null</item>
+        <item name="android:taskToFrontEnterAnimation">@null</item>
+        <item name="android:taskToFrontExitAnimation">@null</item>
+        <item name="android:taskToBackEnterAnimation">@null</item>
+        <item name="android:taskToBackExitAnimation">@null</item>
     </style>
 
     <style name="Theme.InvestMind" parent="Base.Theme.InvestMind" />
+
+    <!-- Custom BottomNavigationView style without active indicator to prevent icon jumping -->
+    <style name="Widget.InvestMind.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemActiveIndicatorStyle">@null</item>
+        <item name="labelVisibilityMode">labeled</item>
+    </style>
+
+    <!-- Color selector for bottom nav icons -->
+    <style name="Widget.InvestMind.BottomNavigationView.NoIndicator" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemActiveIndicatorStyle">@null</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="itemIconTint">@color/bottom_nav_color</item>
+        <item name="itemTextColor">@color/bottom_nav_color</item>
+    </style>
 </resources>
