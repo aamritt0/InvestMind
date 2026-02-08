@@ -26,12 +26,19 @@ public class HistoryManager {
             JSONArray array = new JSONArray(json);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
+                
+                // Support backward compatibility - old items won't have these fields
+                String calculationName = obj.optString("calculationName", null);
+                double principalAmount = obj.optDouble("principalAmount", 0.0);
+                
                 items.add(new HistoryItem(
                     obj.getString("type"),
                     obj.getString("title"),
                     obj.getLong("timestamp"),
                     obj.getString("amount"),
-                    obj.getString("details")
+                    obj.getString("details"),
+                    calculationName,
+                    principalAmount
                 ));
             }
         } catch (JSONException e) {
@@ -50,6 +57,15 @@ public class HistoryManager {
                 obj.put("timestamp", item.getTimestamp());
                 obj.put("amount", item.getAmount());
                 obj.put("details", item.getDetails());
+                
+                // Add new fields
+                if (item.getCalculationName() != null && !item.getCalculationName().isEmpty()) {
+                    obj.put("calculationName", item.getCalculationName());
+                }
+                if (item.getPrincipalAmount() > 0) {
+                    obj.put("principalAmount", item.getPrincipalAmount());
+                }
+                
                 array.put(obj);
             } catch (JSONException e) {
                 e.printStackTrace();

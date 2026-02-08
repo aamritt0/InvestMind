@@ -114,10 +114,8 @@ public class CompoundCalcActivity extends AppCompatActivity {
     }
 
     private void updateValues() {
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.ITALY);
-        currencyFormat.setMaximumFractionDigits(0);
-        tvPrincipalValue.setText(currencyFormat.format(principal));
-
+        SettingsManager settings = new SettingsManager(this);
+        tvPrincipalValue.setText(settings.formatCurrencyNoDecimals(principal));
         tvRateValue.setText(String.format(Locale.getDefault(), "%.1f%%", rate));
         
         tvYearsValue.setText(String.format(Locale.getDefault(), "%d Anni", years));
@@ -127,6 +125,31 @@ public class CompoundCalcActivity extends AppCompatActivity {
     }
 
     private void calculateAndShowResult() {
+        // Show dialog to optionally name the calculation
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Dai un nome al calcolo (opzionale)");
+        
+        final android.widget.EditText input = new android.widget.EditText(this);
+        input.setHint("es: Piano Pensione, Investimento Casa...");
+        android.view.ViewGroup.MarginLayoutParams params = new android.view.ViewGroup.MarginLayoutParams(
+            android.view.ViewGroup.MarginLayoutParams.MATCH_PARENT,
+            android.view.ViewGroup.MarginLayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(50, 20, 50, 20);
+        input.setLayoutParams(params);
+        builder.setView(input);
+        
+        builder.setPositiveButton("Calcola", (dialog, which) -> {
+            String calculationName = input.getText().toString().trim();
+            performCalculation(calculationName);
+        });
+        
+        builder.setNegativeButton("Annulla", (dialog, which) -> dialog.cancel());
+        
+        builder.show();
+    }
+    
+    private void performCalculation(String calculationName) {
         // A = P(1 + r/n)^(nt)
         double r = rate / 100.0;
         double amount = principal * Math.pow(1 + (r / frequency), frequency * years);
@@ -137,6 +160,9 @@ public class CompoundCalcActivity extends AppCompatActivity {
         intent.putExtra("PRINCIPAL", principal);
         intent.putExtra("RATE", rate);
         intent.putExtra("YEARS", years);
+        if (calculationName != null && !calculationName.isEmpty()) {
+            intent.putExtra("CALCULATION_NAME", calculationName);
+        }
         startActivity(intent);
     }
 }

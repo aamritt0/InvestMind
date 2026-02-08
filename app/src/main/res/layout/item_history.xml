@@ -40,13 +40,23 @@
             android:layout_marginStart="16dp">
 
             <TextView
+                android:id="@+id/tvCalculationName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Piano Pensione"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:visibility="gone"/>
+
+            <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Interesse Composto"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="16sp"/>
+                android:textSize="14sp"
+                android:layout_marginTop="2dp"/>
 
             <TextView
                 android:id="@+id/tvDate"
@@ -54,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:text="Oggi, 14:30"
                 android:textColor="@color/text_secondary"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:layout_marginTop="2dp"/>
         </LinearLayout>
 

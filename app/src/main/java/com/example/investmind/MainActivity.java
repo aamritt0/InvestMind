@@ -55,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (item.getItemId() == R.id.nav_home) {
                 return true;
+            } else if (item.getItemId() == R.id.nav_settings) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                return true;
             }
             return false;
         });

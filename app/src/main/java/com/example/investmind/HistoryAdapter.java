@@ -29,9 +29,36 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             filteredItems = new ArrayList<>(items);
         } else {
             filteredItems.clear();
+            String lowerQuery = query.toLowerCase();
+            
             for (HistoryItem item : items) {
-                if (item.getTitle().toLowerCase().contains(query.toLowerCase()) || 
-                    item.getDetails().toLowerCase().contains(query.toLowerCase())) {
+                boolean matches = false;
+                
+                // Search by title
+                if (item.getTitle().toLowerCase().contains(lowerQuery)) {
+                    matches = true;
+                }
+                
+                // Search by details
+                if (item.getDetails().toLowerCase().contains(lowerQuery)) {
+                    matches = true;
+                }
+                
+                // Search by calculation name
+                if (item.getCalculationName() != null && 
+                    item.getCalculationName().toLowerCase().contains(lowerQuery)) {
+                    matches = true;
+                }
+                
+                // Search by principal amount (numeric)
+                if (item.getPrincipalAmount() > 0) {
+                    String principalStr = String.valueOf((int)item.getPrincipalAmount());
+                    if (principalStr.contains(query.replaceAll("[^0-9]", ""))) {
+                        matches = true;
+                    }
+                }
+                
+                if (matches) {
                     filteredItems.add(item);
                 }
             }
@@ -49,7 +76,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HistoryItem item = filteredItems.get(position);
-        holder.tvTitle.setText(item.getTitle());
+        
+        // Show calculation name if available, otherwise show title
+        if (item.getCalculationName() != null && !item.getCalculationName().isEmpty()) {
+            holder.tvCalculationName.setText(item.getCalculationName());
+            holder.tvCalculationName.setVisibility(View.VISIBLE);
+            holder.tvTitle.setText(item.getTitle());
+        } else {
+            holder.tvCalculationName.setVisibility(View.GONE);
+            holder.tvTitle.setText(item.getTitle());
+        }
+        
         holder.tvAmount.setText(item.getAmount());
         
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, HH:mm", Locale.getDefault());
@@ -68,7 +105,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle, tvDate, tvAmount;
+        TextView tvTitle, tvDate, tvAmount, tvCalculationName;
         ImageView ivIcon;
 
         public ViewHolder(@NonNull View itemView) {
@@ -76,6 +113,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvAmount = itemView.findViewById(R.id.tvAmount);
+            tvCalculationName = itemView.findViewById(R.id.tvCalculationName);
             ivIcon = itemView.findViewById(R.id.ivIcon);
         }
     }

@@ -25,11 +25,12 @@ public class ResultActivity extends AppCompatActivity {
             return insets;
         });
 
+        SettingsManager settings = new SettingsManager(this);
+        
         double amount = getIntent().getDoubleExtra("RESULT_AMOUNT", 0.0);
         TextView tvResultAmount = findViewById(R.id.tvResultAmount);
         
-        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.ITALY);
-        tvResultAmount.setText(currencyFormat.format(amount));
+        tvResultAmount.setText(settings.formatCurrency(amount));
 
         // Save History
         String type = getIntent().getStringExtra("CALC_TYPE");
@@ -38,17 +39,19 @@ public class ResultActivity extends AppCompatActivity {
         double principal = getIntent().getDoubleExtra("PRINCIPAL", 0);
         double rate = getIntent().getDoubleExtra("RATE", 0);
         int years = getIntent().getIntExtra("YEARS", 0);
+        String calculationName = getIntent().getStringExtra("CALCULATION_NAME");
 
-        NumberFormat cf = NumberFormat.getCurrencyInstance(Locale.ITALY);
-        cf.setMaximumFractionDigits(0);
-        String details = cf.format(principal) + " + " + String.format(Locale.getDefault(), "%.1f%%", rate) + " per " + years + " anni";
+        String details = settings.formatCurrencyNoDecimals(principal) + " + " + 
+                         String.format(Locale.getDefault(), "%.1f%%", rate) + " per " + years + " anni";
 
         HistoryItem item = new HistoryItem(
             type,
             type,
             System.currentTimeMillis(),
-            currencyFormat.format(amount),
-            details
+            settings.formatCurrency(amount),
+            details,
+            calculationName,
+            principal
         );
         HistoryManager.saveHistoryItem(this, item);
     }
