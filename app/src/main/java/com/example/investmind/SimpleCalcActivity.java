@@ -93,9 +93,13 @@ public class SimpleCalcActivity extends AppCompatActivity {
         sliderPrincipal.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // 0 to 50000, step 500. progress 0-100
-                principal = progress * 500.0;
-                updateValues();
+                // Only update principal if the change came from user interaction
+                // This prevents overwriting text input values > 100k
+                if (fromUser) {
+                    // 0 to 100000, step 500. progress 0-200
+                    principal = progress * 500.0;
+                    updateValues();
+                }
             }
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
@@ -142,14 +146,20 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 if (!isUpdatingFromSlider && s.length() > 0) {
                     try {
                         double value = settingsManager.parseNumber(s.toString());
-                        if (value >= 0 && value <= 50000) {
+                        if (value >= 0 && value <= 500000) {
                             principal = value;
-                            int progress = (int) (value / 500.0);
-                            sliderPrincipal.setProgress(progress);
+                            // Only update slider if value is within slider range (0-100k)
+                            if (value <= 100000) {
+                                int progress = (int) (value / 500.0);
+                                sliderPrincipal.setProgress(progress);
+                            } else {
+                                // Set slider to maximum when value exceeds slider range
+                                sliderPrincipal.setProgress(200);
+                            }
                             tvPrincipalValue.setText(settingsManager.formatCurrencyNoDecimals(principal));
                             textInputLayoutPrincipal.setError(null);
                         } else {
-                            textInputLayoutPrincipal.setError("Valore tra 0 e 50.000");
+                            textInputLayoutPrincipal.setError("Valore tra 0 e " + settingsManager.formatNumber(500000, 0));
                         }
                     } catch (NumberFormatException e) {
                         textInputLayoutPrincipal.setError("Valore non valido");
@@ -174,10 +184,10 @@ public class SimpleCalcActivity extends AppCompatActivity {
                             rate = value;
                             int progress = (int) ((value - 0.1) / 0.1);
                             sliderRate.setProgress(progress);
-                            tvRateValue.setText(String.format(Locale.getDefault(), "%.1f%%", rate));
+                            tvRateValue.setText(settingsManager.formatPercentage(rate));
                             textInputLayoutRate.setError(null);
                         } else {
-                            textInputLayoutRate.setError("Valore tra 0.1% e 15%");
+                            textInputLayoutRate.setError("Valore tra " + settingsManager.formatPercentage(0.1) + " e " + settingsManager.formatPercentage(15.0));
                         }
                     } catch (NumberFormatException e) {
                         textInputLayoutRate.setError("Valore non valido");
@@ -221,7 +231,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
         isUpdatingFromSlider = true;
         
         tvPrincipalValue.setText(settingsManager.formatCurrencyNoDecimals(principal));
-        tvRateValue.setText(String.format(Locale.getDefault(), "%.1f%%", rate));
+        tvRateValue.setText(settingsManager.formatPercentage(rate));
         
         tvYearsValue.setText(String.format(Locale.getDefault(), "%d Anni", years));
         if (years == 1) {
@@ -235,7 +245,7 @@ public class SimpleCalcActivity extends AppCompatActivity {
                 etPrincipal.setText(settingsManager.getNumberFormat(0).format(principal));
             }
             if (!etRate.hasFocus()) {
-                etRate.setText(String.format(Locale.getDefault(), "%.1f", rate).replace(".", settingsManager.getDecimalSeparator()));
+                etRate.setText(settingsManager.formatNumber(rate, 1));
             }
             if (!etYears.hasFocus()) {
                 etYears.setText(String.valueOf(years));

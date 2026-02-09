@@ -1,0 +1,59 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    
+    <!-- Background circle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M60,60m-50,0a50,50 0,1,1 100,0a50,50 0,1,1 -100,0"
+        android:fillAlpha="0.15"/>
+    
+    <!-- Exponential growth curve -->
+    <path
+        android:strokeWidth="3.5"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M20,90 Q30,85 40,75 T60,50 T80,25 L95,15"/>
+    
+    <!-- Data points with increasing size -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M20,90m-3,0a3,3 0,1,1 6,0a3,3 0,1,1 -6,0"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M40,75m-4,0a4,4 0,1,1 8,0a4,4 0,1,1 -8,0"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M60,50m-5,0a5,5 0,1,1 10,0a5,5 0,1,1 -10,0"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M80,25m-6,0a6,6 0,1,1 12,0a6,6 0,1,1 -12,0"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M95,15m-7,0a7,7 0,1,1 14,0a7,7 0,1,1 -14,0"/>
+    
+    <!-- Grid lines -->
+    <path
+        android:strokeWidth="1"
+        android:strokeColor="#FFFFFF"
+        android:strokeAlpha="0.1"
+        android:pathData="M15,25 L105,25 M15,50 L105,50 M15,75 L105,75 M15,100 L105,100"/>
+    <path
+        android:strokeWidth="1"
+        android:strokeColor="#FFFFFF"
+        android:strokeAlpha="0.1"
+        android:pathData="M25,15 L25,105 M50,15 L50,105 M75,15 L75,105 M100,15 L100,105"/>
+    
+    <!-- Upward arrow -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M88,22 L92,18 L96,22 L94,23 L92,21 L90,23 Z"/>
+    
+    <!-- Money stack icon -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M22,82 L22,86 L18,86 L18,82 Z M26,82 L26,86 L30,86 L30,82 Z M24,78 C18.48,78 14,82.48 14,88 C14,93.52 18.48,98 24,98 C29.52,98 34,93.52 34,88 C34,82.48 29.52,78 24,78 Z M24,94.8 C20.14,94.8 17,91.66 17,88 C17,84.34 20.14,81.2 24,81.2 C27.86,81.2 31,84.34 31,88 C31,91.66 27.86,94.8 24,94.8 Z"/>
+</vector>

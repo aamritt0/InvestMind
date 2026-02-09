@@ -75,42 +75,42 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Annuale"
+                    android:text="Anno"
                     android:textAllCaps="false"
-                    android:textColor="@color/text_primary"
+                    android:textColor="@color/toggle_button_text_color"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     style="@style/Widget.Material3.Button.OutlinedButton"
-                    app:strokeColor="@color/surface_variant"
-                    app:backgroundTint="@color/surface"/>
+                    app:strokeColor="@color/toggle_button_stroke_color"
+                    app:backgroundTint="@color/toggle_button_background_tint"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnQuarterly"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Trimestrale"
+                    android:text="Trim."
                     android:textAllCaps="false"
-                    android:textColor="@color/text_primary"
+                    android:textColor="@color/toggle_button_text_color"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     style="@style/Widget.Material3.Button.OutlinedButton"
-                    app:strokeColor="@color/surface_variant"
-                    app:backgroundTint="@color/surface"/>
+                    app:strokeColor="@color/toggle_button_stroke_color"
+                    app:backgroundTint="@color/toggle_button_background_tint"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnMonthly"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Mensile"
+                    android:text="Mese"
                     android:textAllCaps="false"
-                    android:textColor="@color/text_primary"
+                    android:textColor="@color/toggle_button_text_color"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     style="@style/Widget.Material3.Button.OutlinedButton"
-                    app:strokeColor="@color/surface_variant"
-                    app:backgroundTint="@color/surface"/>
+                    app:strokeColor="@color/toggle_button_stroke_color"
+                    app:backgroundTint="@color/toggle_button_background_tint"/>
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <!-- Card 1: Capitale Iniziale -->
@@ -176,7 +176,7 @@
                         android:id="@+id/sliderPrincipal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:max="100"
+                        android:max="200"
                         android:progress="20"
                         android:thumb="@drawable/thumb_expressive"
                         android:progressDrawable="@drawable/track_expressive"
@@ -200,7 +200,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="€ 50k"
+                            android:text="€ 100k"
                             android:textColor="@color/text_secondary"
                             android:textSize="11sp"
                             android:textStyle="bold"

@@ -19,6 +19,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Check if onboarding is needed
+        SettingsManager settings = new SettingsManager(this);
+        if (!settings.isOnboardingCompleted()) {
+            Intent onboardingIntent = new Intent(this, OnboardingActivity.class);
+            startActivity(onboardingIntent);
+            finish();
+            return;
+        }
+        
         setContentView(R.layout.activity_main);
 
         setupGreeting();
@@ -50,19 +60,15 @@ public class MainActivity extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_history) {
                 Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                overridePendingTransition(0, 0); // No animation
-                finish();
+                overridePendingTransition(0, 0);
                 return true;
             } else if (item.getItemId() == R.id.nav_home) {
                 return true;
             } else if (item.getItemId() == R.id.nav_settings) {
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                overridePendingTransition(0, 0); // No animation
-                finish();
+                overridePendingTransition(0, 0);
                 return true;
             }
             return false;

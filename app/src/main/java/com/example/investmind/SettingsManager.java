@@ -14,6 +14,7 @@ public class SettingsManager {
     private static final String KEY_DECIMAL_SEP = "decimal_separator";
     private static final String KEY_THOUSANDS_SEP = "thousands_separator";
     private static final String KEY_TEXT_INPUT_ENABLED = "text_input_enabled";
+    private static final String KEY_ONBOARDING_COMPLETED = "onboarding_completed";
     
     // Default values
     private static final String DEFAULT_CURRENCY = "EUR";
@@ -74,17 +75,27 @@ public class SettingsManager {
         prefs.edit().putBoolean(KEY_TEXT_INPUT_ENABLED, enabled).apply();
     }
     
+    // Onboarding settings
+    public boolean isOnboardingCompleted() {
+        return prefs.getBoolean(KEY_ONBOARDING_COMPLETED, false);
+    }
+    
+    public void setOnboardingCompleted(boolean completed) {
+        prefs.edit().putBoolean(KEY_ONBOARDING_COMPLETED, completed).apply();
+    }
+    
     // Formatting helpers
     public NumberFormat getCurrencyFormat() {
-        NumberFormat format = NumberFormat.getCurrencyInstance();
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setCurrencySymbol(getCurrencySymbol());
         symbols.setDecimalSeparator(getDecimalSeparator().charAt(0));
         symbols.setGroupingSeparator(getThousandsSeparator().charAt(0));
         
-        if (format instanceof DecimalFormat) {
-            ((DecimalFormat) format).setDecimalFormatSymbols(symbols);
-        }
+        // Use explicit pattern to ensure grouping separator is applied (critical for space separator)
+        // Note: We add currency symbol manually after formatting to avoid pattern issues
+        DecimalFormat format = new DecimalFormat("#,##0.00", symbols);
+        format.setGroupingUsed(true);
+        format.setGroupingSize(3);
         
         return format;
     }
@@ -97,11 +108,18 @@ public class SettingsManager {
     }
     
     public String formatCurrency(double amount) {
-        return getCurrencyFormat().format(amount);
+        String formatted = getCurrencyFormat().format(amount);
+        // Manually add currency symbol with space
+        return formatted + " " + getCurrencySymbol();
     }
     
     public String formatCurrencyNoDecimals(double amount) {
-        return getCurrencyFormatNoDecimals().format(amount);
+        NumberFormat format = getCurrencyFormat();
+        format.setMaximumFractionDigits(0);
+        format.setMinimumFractionDigits(0);
+        String formatted = format.format(amount);
+        // Manually add currency symbol with space
+        return formatted + " " + getCurrencySymbol();
     }
     
     public DecimalFormat getNumberFormat(int maxDecimals) {
@@ -109,11 +127,18 @@ public class SettingsManager {
         symbols.setDecimalSeparator(getDecimalSeparator().charAt(0));
         symbols.setGroupingSeparator(getThousandsSeparator().charAt(0));
         
-        DecimalFormat format = new DecimalFormat();
-        format.setDecimalFormatSymbols(symbols);
+        // Build pattern based on decimals: "#,##0" or "#,##0.0" etc.
+        String pattern = "#,##0";
+        if (maxDecimals > 0) {
+            pattern += ".";
+            for (int i = 0; i < maxDecimals; i++) {
+                pattern += "0";
+            }
+        }
+        
+        DecimalFormat format = new DecimalFormat(pattern, symbols);
         format.setGroupingUsed(true);
-        format.setMaximumFractionDigits(maxDecimals);
-        format.setMinimumFractionDigits(0);
+        format.setGroupingSize(3);
         
         return format;
     }
@@ -134,5 +159,23 @@ public class SettingsManager {
         cleaned = cleaned.replaceAll("[^0-9.-]", "");
         
         return Double.parseDouble(cleaned);
+    }
+    
+    // Format percentage with custom decimal separator
+    public String formatPercentage(double percentage) {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator(getDecimalSeparator().charAt(0));
+        symbols.setGroupingSeparator(getThousandsSeparator().charAt(0));
+        
+        DecimalFormat format = new DecimalFormat("#,##0.0", symbols);
+        format.setGroupingUsed(true);
+        format.setGroupingSize(3);
+        
+        return format.format(percentage) + "%";
+    }
+    
+    // Format plain number with custom separators
+    public String formatNumber(double number, int decimals) {
+        return getNumberFormat(decimals).format(number);
     }
 }

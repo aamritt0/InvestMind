@@ -15,6 +15,8 @@ public class SettingsActivity extends AppCompatActivity {
     private AutoCompleteTextView dropdownDecimal;
     private AutoCompleteTextView dropdownThousands;
     private MaterialSwitch switchTextInput;
+    
+    private boolean isInitialized = false; // Cache flag to prevent re-setup
 
     private final String[] currencies = {"EUR (€)", "USD ($)", "GBP (£)", "JPY (¥)", "CHF (Fr)", "CAD ($)", "AUD ($)", "CNY (¥)", "INR (₹)", "BRL (R$)"};
     private final String[] currencyCodes = {"EUR", "USD", "GBP", "JPY", "CHF", "CAD", "AUD", "CNY", "INR", "BRL"};
@@ -38,17 +40,13 @@ public class SettingsActivity extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
                 Intent intent = new Intent(this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
-                finish();
                 return true;
             } else if (item.getItemId() == R.id.nav_history) {
                 Intent intent = new Intent(this, HistoryActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
-                finish();
                 return true;
             } else if (item.getItemId() == R.id.nav_settings) {
                 return true;
@@ -62,10 +60,14 @@ public class SettingsActivity extends AppCompatActivity {
         dropdownThousands = findViewById(R.id.dropdownThousands);
         switchTextInput = findViewById(R.id.switchTextInput);
 
-        setupCurrencyDropdown();
-        setupDecimalDropdown();
-        setupThousandsDropdown();
-        setupTextInputSwitch();
+        // Only setup if not already initialized (expensive operations)
+        if (!isInitialized) {
+            setupCurrencyDropdown();
+            setupDecimalDropdown();
+            setupThousandsDropdown();
+            setupTextInputSwitch();
+            isInitialized = true;
+        }
         
         // About button
         findViewById(R.id.btnAbout).setOnClickListener(v -> {

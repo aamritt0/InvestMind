@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Vibrant gradient background -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="135"
+                android:startColor="#0B5DB0"
+                android:centerColor="#1976D2"
+                android:endColor="#2196F3"
+                android:type="linear"/>
+        </shape>
+    </item>
+    
+    <!-- Decorative circles -->
+    <item
+        android:top="15dp"
+        android:right="25dp"
+        android:width="70dp"
+        android:height="70dp"
+        android:gravity="top|end">
+        <shape android:shape="oval">
+            <solid android:color="#1AFFFFFF"/>
+        </shape>
+    </item>
+    
+    <item
+        android:bottom="20dp"
+        android:left="15dp"
+        android:width="90dp"
+        android:height="90dp"
+        android:gravity="bottom|start">
+        <shape android:shape="oval">
+            <solid android:color="#1AFFFFFF"/>
+        </shape>
+    </item>
+    
+    <item
+        android:top="50dp"
+        android:left="40dp"
+        android:width="50dp"
+        android:height="50dp"
+        android:gravity="top|start">
+        <shape android:shape="oval">
+            <solid android:color="#0DFFFFFF"/>
+        </shape>
+    </item>
+    
+    <!-- Rocket/growth icon in center -->
+    <item
+        android:width="90dp"
+        android:height="90dp"
+        android:gravity="center">
+        <vector
+            android:width="90dp"
+            android:height="90dp"
+            android:viewportWidth="90"
+            android:viewportHeight="90">
+            
+            <!-- Rocket body -->
+            <path
+                android:fillColor="#FFFFFF"
+                android:pathData="M45,15 L50,25 L50,55 L40,55 L40,25 Z"/>
+            <path
+                android:fillColor="#E0E0E0"
+                android:pathData="M45,15 L42,20 L42,25 L48,25 L48,20 Z"/>
+            
+            <!-- Window -->
+            <path
+                android:fillColor="#1976D2"
+                android:fillAlpha="0.3"
+                android:pathData="M45,30m-5,0a5,5 0,1,1 10,0a5,5 0,1,1 -10,0"/>
+            
+            <!-- Fins -->
+            <path
+                android:fillColor="#E0E0E0"
+                android:pathData="M40,45 L35,55 L40,55 Z"/>
+            <path
+                android:fillColor="#E0E0E0"
+                android:pathData="M50,45 L55,55 L50,55 Z"/>
+            
+            <!-- Flame -->
+            <path
+                android:fillColor="#FFB300"
+                android:pathData="M42,55 L45,65 L48,55 Z"/>
+            <path
+                android:fillColor="#FF6F00"
+                android:pathData="M43,55 L45,62 L47,55 Z"/>
+            
+            <!-- Sparkle/stars -->
+            <path
+                android:fillColor="#FFFFFF"
+                android:pathData="M60,25 L61,28 L64,28 L61,28 L60,31 L59,28 L56,28 L59,28 Z"/>
+            <path
+                android:fillColor="#FFFFFF"
+                android:pathData="M70,40 L71,43 L74,43 L71,43 L70,46 L69,43 L66,43 L69,43 Z"/>
+            <path
+                android:fillColor="#FFFFFF"
+                android:pathData="M30,35 L31,37 L33,37 L31,37 L30,39 L29,37 L27,37 L29,37 Z"/>
+                
+        </vector>
+    </item>
+    
+</layer-list>

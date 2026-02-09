@@ -42,7 +42,7 @@ public class ResultActivity extends AppCompatActivity {
         String calculationName = getIntent().getStringExtra("CALCULATION_NAME");
 
         String details = settings.formatCurrencyNoDecimals(principal) + " + " + 
-                         String.format(Locale.getDefault(), "%.1f%%", rate) + " per " + years + " anni";
+                         settings.formatPercentage(rate) + " per " + years + " anni";
 
         HistoryItem item = new HistoryItem(
             type,

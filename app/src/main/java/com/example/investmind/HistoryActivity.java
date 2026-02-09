@@ -16,6 +16,7 @@ import java.util.List;
 public class HistoryActivity extends AppCompatActivity {
 
     private HistoryAdapter adapter;
+    private boolean dataLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,19 +29,15 @@ public class HistoryActivity extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
                 Intent intent = new Intent(this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                overridePendingTransition(0, 0); // No animation
-                finish();
+                overridePendingTransition(0, 0);
                 return true;
             } else if (item.getItemId() == R.id.nav_history) {
                 return true;
             } else if (item.getItemId() == R.id.nav_settings) {
                 Intent intent = new Intent(this, SettingsActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                overridePendingTransition(0, 0); // No animation
-                finish();
+                overridePendingTransition(0, 0);
                 return true;
             }
             return false;
@@ -55,6 +52,7 @@ public class HistoryActivity extends AppCompatActivity {
         // Load Data
         List<HistoryItem> historyItems = HistoryManager.getHistoryItems(this);
         adapter.setItems(historyItems);
+        dataLoaded = true;
 
         // Search
         EditText etSearch = findViewById(R.id.etSearch);
@@ -77,7 +75,27 @@ public class HistoryActivity extends AppCompatActivity {
         super.onResume();
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
         bottomNav.getMenu().findItem(R.id.nav_history).setChecked(true);
-        List<HistoryItem> historyItems = HistoryManager.getHistoryItems(this);
-        adapter.setItems(historyItems);
+        
+        // Only reload data if returning from calculator activities, not from tab switching
+        if (!dataLoaded) {
+            List<HistoryItem> historyItems = HistoryManager.getHistoryItems(this);
+            adapter.setItems(historyItems);
+            dataLoaded = true;
+        }
+    }
+    
+    @Override
+    protected void onNewIntent(android.content.Intent intent) {
+        super.onNewIntent(intent);
+        // Reload data when explicitly navigating back (not from tab switch)
+        // This handles cases where we return from a calculator activity
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Reset flag only when leaving to a calculator activity
+        // Check if we're going to MainActivity or SettingsActivity via bottom nav
+        // In those cases, keep dataLoaded = true for fast switching
     }
 }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Background gradient -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="135"
+                android:startColor="#2D3E50"
+                android:centerColor="#34495E"
+                android:endColor="#4A5F7F"
+                android:type="linear"/>
+        </shape>
+    </item>
+    
+    <!-- Decorative circles -->
+    <item
+        android:top="20dp"
+        android:right="30dp"
+        android:width="60dp"
+        android:height="60dp"
+        android:gravity="top|end">
+        <shape android:shape="oval">
+            <solid android:color="#1A1976D2"/>
+        </shape>
+    </item>
+    
+    <item
+        android:bottom="30dp"
+        android:left="20dp"
+        android:width="80dp"
+        android:height="80dp"
+        android:gravity="bottom|start">
+        <shape android:shape="oval">
+            <solid android:color="#1A1976D2"/>
+        </shape>
+    </item>
+    
+    <!-- Large icon in center -->
+    <item
+        android:width="80dp"
+        android:height="80dp"
+        android:gravity="center">
+        <vector
+            android:width="80dp"
+            android:height="80dp"
+            android:viewportWidth="80"
+            android:viewportHeight="80">
+            
+            <!-- Money/calculator icon -->
+            <path
+                android:fillColor="#1976D2"
+                android:pathData="M20,20 L60,20 L60,60 L20,60 Z"/>
+            <path
+                android:fillColor="#FFFFFF"
+                android:pathData="M24,24 L56,24 L56,56 L24,56 Z"/>
+            <path
+                android:fillColor="#1976D2"
+                android:pathData="M28,30 L48,30 L48,34 L28,34 Z"/>
+            <path
+                android:fillColor="#1976D2"
+                android:pathData="M28,38 L38,38 L38,42 L28,42 Z"/>
+            <path
+                android:fillColor="#1976D2"
+                android:pathData="M42,38 L52,38 L52,42 L42,42 Z"/>
+            <path
+                android:fillColor="#1976D2"
+                android:pathData="M28,46 L38,46 L38,50 L28,50 Z"/>
+            <path
+                android:fillColor="#1976D2"
+                android:pathData="M42,46 L52,46 L52,50 L42,50 Z"/>
+        </vector>
+    </item>
+    
+</layer-list>

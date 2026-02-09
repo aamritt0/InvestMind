@@ -100,7 +100,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="none"
-                                android:editable="false"
                                 android:textColor="@color/white"
                                 android:textStyle="bold"
                                 android:padding="12dp"/>
@@ -153,7 +152,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="none"
-                                android:editable="false"
                                 android:textColor="@color/white"
                                 android:textStyle="bold"
                                 android:padding="12dp"/>
@@ -206,7 +204,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="none"
-                                android:editable="false"
                                 android:textColor="@color/white"
                                 android:textStyle="bold"
                                 android:padding="12dp"/>

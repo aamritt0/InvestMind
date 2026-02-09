@@ -78,10 +78,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <View
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
-                    android:background="@color/surface_variant"/>
+                    android:background="@color/surface_variant"
+                    android:src="@drawable/img_simple_interest"
+                    android:scaleType="centerCrop"
+                    android:alpha="0.85"
+                    android:contentDescription="Grafico crescita lineare interesse semplice"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -155,10 +159,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <View
+                <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
-                    android:background="#0B5DB0"/>
+                    android:background="#0B5DB0"
+                    android:src="@drawable/img_compound_interest"
+                    android:scaleType="centerCrop"
+                    android:alpha="0.7"
+                    android:contentDescription="Grafico crescita esponenziale interesse composto"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

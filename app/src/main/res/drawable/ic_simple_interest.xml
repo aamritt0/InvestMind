@@ -1,0 +1,50 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    
+    <!-- Background circle -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M60,60m-50,0a50,50 0,1,1 100,0a50,50 0,1,1 -100,0"
+        android:fillAlpha="0.15"/>
+    
+    <!-- Linear growth line -->
+    <path
+        android:strokeWidth="3"
+        android:strokeColor="#1976D2"
+        android:strokeLineCap="round"
+        android:pathData="M25,85 L95,35"/>
+    
+    <!-- Data points -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M25,85m-4,0a4,4 0,1,1 8,0a4,4 0,1,1 -8,0"/>
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M48,67m-4,0a4,4 0,1,1 8,0a4,4 0,1,1 -8,0"/>
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M72,50m-4,0a4,4 0,1,1 8,0a4,4 0,1,1 -8,0"/>
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M95,35m-4,0a4,4 0,1,1 8,0a4,4 0,1,1 -8,0"/>
+    
+    <!-- Grid lines -->
+    <path
+        android:strokeWidth="1"
+        android:strokeColor="#1976D2"
+        android:strokeAlpha="0.1"
+        android:pathData="M20,30 L100,30 M20,50 L100,50 M20,70 L100,70 M20,90 L100,90"/>
+    <path
+        android:strokeWidth="1"
+        android:strokeColor="#1976D2"
+        android:strokeAlpha="0.1"
+        android:pathData="M30,20 L30,100 M50,20 L50,100 M70,20 L70,100 M90,20 L90,100"/>
+        
+    <!-- Money icon -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M32,72 L32,76 L28,76 L28,72 Z M36,72 L36,76 L40,76 L40,72 Z M34,68 C28.48,68 24,72.48 24,78 C24,83.52 28.48,88 34,88 C39.52,88 44,83.52 44,78 C44,72.48 39.52,68 34,68 Z M34,84.8 C30.14,84.8 27,81.66 27,78 C27,74.34 30.14,71.2 34,71.2 C37.86,71.2 41,74.34 41,78 C41,81.66 37.86,84.8 34,84.8 Z"/>
+</vector>
