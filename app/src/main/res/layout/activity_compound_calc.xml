@@ -221,7 +221,8 @@
                         app:boxStrokeColor="@color/primary"
                         app:boxStrokeWidth="1dp"
                         app:boxStrokeWidthFocused="2dp"
-                        app:hintTextColor="@color/text_secondary"
+                        app:hintTextColor="@color/primary"
+                        android:textColorHint="@color/text_secondary"
                         android:hint="Inserisci importo">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -343,7 +344,8 @@
                         app:boxStrokeColor="@color/primary"
                         app:boxStrokeWidth="1dp"
                         app:boxStrokeWidthFocused="2dp"
-                        app:hintTextColor="@color/text_secondary"
+                        app:hintTextColor="@color/primary"
+                        android:textColorHint="@color/text_secondary"
                         android:hint="Tasso (%)"
                         app:suffixText="%"
                         app:suffixTextColor="@color/text_secondary">
@@ -467,7 +469,8 @@
                         app:boxStrokeColor="@color/primary"
                         app:boxStrokeWidth="1dp"
                         app:boxStrokeWidthFocused="2dp"
-                        app:hintTextColor="@color/text_secondary"
+                        app:hintTextColor="@color/primary"
+                        android:textColorHint="@color/text_secondary"
                         android:hint="Numero di anni"
                         app:suffixText="anni"
                         app:suffixTextColor="@color/text_secondary">

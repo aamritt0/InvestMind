@@ -277,7 +277,7 @@ public class CompoundCalcActivity extends AppCompatActivity {
         com.google.android.material.textfield.TextInputEditText input = dialogView.findViewById(R.id.etCalculationName);
         
         com.google.android.material.dialog.MaterialAlertDialogBuilder builder = 
-            new com.google.android.material.dialog.MaterialAlertDialogBuilder(this);
+            new com.google.android.material.dialog.MaterialAlertDialogBuilder(this, com.google.android.material.R.style.ThemeOverlay_Material3_Dark);
         builder.setView(dialogView);
         
         builder.setPositiveButton("Calcola", (dialog, which) -> {

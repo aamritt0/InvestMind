@@ -2,6 +2,13 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.InvestMind" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorSurfaceContainer">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorOnBackground">@color/text_primary</item>
+        <item name="android:textColorHint">@color/text_secondary</item>
         
         <!-- Disable activity transition animations for seamless bottom nav switching -->
         <item name="android:windowAnimationStyle">@style/NoTransitionAnimation</item>
