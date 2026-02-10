@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Dai un nome al calcolo"
         android:textSize="24sp"
-        android:textColor="@color/white"
+        android:textColor="@color/text_primary"
         android:textStyle="bold"
         android:layout_marginBottom="8dp"/>
 
@@ -40,7 +40,7 @@
             android:id="@+id/etCalculationName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/text_primary"
             android:textSize="16sp"
             android:inputType="text"
             android:maxLines="1"/>
